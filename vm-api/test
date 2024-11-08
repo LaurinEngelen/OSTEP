@@ -1,0 +1,6 @@
+
+int main() {
+
+    int *a = malloc(10 * sizeof(int));
+    int *temp = realloc(a, 20 * sizeof(int));
+}

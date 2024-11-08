@@ -1,0 +1,168 @@
+Frage 1:
+Predict how the process tree looks like?
+-> 
+a - b
+
+a - b
+  |_c
+
+a - b
+
+a - b
+  |_ d
+
+a - b
+  |_ d
+  |_ e
+
+Frage 2:
+What changes with the fork-percentage?
+-> je höher, desto breiter und länger wird der Tree (mehr subchildren und subsiblings)
+-> je niedriger desto kleiner
+
+Frage 3:
+Which actions were taken?
+pocketlab@326c9e7593cf:~/ostep-homework/cpu-api$ ./fork.py -s 10 -t
+
+ARG seed 10
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree True
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve False
+
+                           Process Tree:
+                               a
+
+Action? // a forks b
+                               a
+                               └── b
+Action? // a forks c
+                               a
+                               ├── b
+                               └── c
+Action? // a exits c
+                               a
+                               └── b
+Action? // a forks d
+                               a
+                               ├── b
+                               └── d
+Action? // a forks e
+                               a
+                               ├── b
+                               ├── d
+                               └── e
+
+
+Frage 4:
+What happens to subchildren when you exit a children?
+-> Mit der Flag -R gehts nur eins zurück und ohne direkt zum root
+
+pocketlab@326c9e7593cf:~/ostep-homework/cpu-api$ ./fork.py -A a+b,b+c,c+d,c+e,c- -c
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list a+b,b+c,c+d,c+e,c-
+ARG show_tree False
+ARG just_final False
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve True
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+                               a
+                               └── b
+Action: b forks c
+                               a
+                               └── b
+                                   └── c
+Action: c forks d
+                               a
+                               └── b
+                                   └── c
+                                       └── d
+Action: c forks e
+                               a
+                               └── b
+                                   └── c
+                                       ├── d
+                                       └── e
+Action: c EXITS
+                               a
+                               ├── b
+                               ├── d
+                               └── e
+
+
+Frage 5:
+Guess the tree!
+pocketlab@326c9e7593cf:~/ostep-homework/cpu-api$ ./fork.py -F
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree False
+ARG just_final True
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve False
+
+                           Process Tree:
+                               a
+
+Action: a forks b
+Action: b forks c
+Action: a forks d
+Action: c EXITS
+Action: b EXITS
+
+                        Final Process Tree?
+
+->
+a 
+ |_ d
+
+
+Frage 6:
+Guess the actions!
+pocketlab@326c9e7593cf:~/ostep-homework/cpu-api$ ./fork.py -F -t
+
+ARG seed -1
+ARG fork_percentage 0.7
+ARG actions 5
+ARG action_list 
+ARG show_tree True
+ARG just_final True
+ARG leaf_only False
+ARG local_reparent False
+ARG print_style fancy
+ARG solve False
+
+                           Process Tree:
+                               a
+
+Action? // a forks b
+Action? // b forks c
+Action? // b forks d
+Action? // d forks e
+Action? // b forks f
+
+                        Final Process Tree:
+                               a
+                               └── b
+                                   ├── c
+                                   ├── d
+                                   │   └── e
+                                   └── f
