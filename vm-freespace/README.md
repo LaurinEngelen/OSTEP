@@ -31,6 +31,7 @@ works. Here are the options that you have at your disposal:
   -c, --compute         compute answers for me
 ```
 
+
 One way to use it is to have the program generate some random allocation/free
 operations and for you to see if you can figure out what the free list would
 look like, as well as the success or failure of each operation. 
