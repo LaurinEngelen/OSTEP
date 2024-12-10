@@ -42,13 +42,13 @@ void *producer(void *arg) {
     int base = id * loops; 
     int i;
     for (i = 0; i < loops; i++) {   p0;
-	Mutex_lock(&m);             p1;
-	while (num_full == max) {   p2;
-	    Cond_wait(&empty, &m);  p3;
-	}
-	do_fill(base + i);          p4;
-	Cond_signal(&fill);         p5;
-	Mutex_unlock(&m);           p6;
+        Mutex_lock(&m);             p1;
+        while (num_full == max) {   p2;
+            Cond_wait(&empty, &m);  p3;
+        }
+        do_fill(base + i);          p4;
+        Cond_signal(&fill);         p5;
+        Mutex_unlock(&m);           p6;
     }
     return NULL;
 }
@@ -58,14 +58,14 @@ void *consumer(void *arg) {
     int tmp = 0;
     int consumed_count = 0;
     while (tmp != END_OF_STREAM) { c0;
-	Mutex_lock(&m);            c1;
-	while (num_full == 0) {    c2;
-	    Cond_wait(&fill, &m);  c3;
-        }
-	tmp = do_get();            c4;
-	Cond_signal(&empty);       c5;
-	Mutex_unlock(&m);          c6;
-	consumed_count++;
+        Mutex_lock(&m);            c1;
+        while (num_full == 0) {    c2;
+            Cond_wait(&fill, &m);  c3;
+            }
+        tmp = do_get();            c4;
+        Cond_signal(&empty);       c5;
+        Mutex_unlock(&m);          c6;
+        consumed_count++;
     }
 
     // return consumer_count-1 because END_OF_STREAM does not count

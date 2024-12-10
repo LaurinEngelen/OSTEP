@@ -1,0 +1,8 @@
+int foo = (int) func ((void *) 100);
+
+pthread_t thread;
+Pthread_create(&thread, NULL, func, (void *) 100);
+void *result;
+Pthread_join(thread, &result);
+
+int k = (int) result;

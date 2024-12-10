@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include "common_threads.h"
 
 pthread_mutex_t g = PTHREAD_MUTEX_INITIALIZER;
