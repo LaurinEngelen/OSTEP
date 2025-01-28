@@ -12,8 +12,15 @@
 // You likely need two semaphores to do this correctly, and some
 // other integers to track things.
 
+sem_t s1, s2;
+
 typedef struct __barrier_t {
     // add semaphores and other information here
+    sem_t s1, s2;
+    int size;
+    int count;
+    
+
 } barrier_t;
 
 
@@ -22,10 +29,34 @@ barrier_t b;
 
 void barrier_init(barrier_t *b, int num_threads) {
     // initialization code goes here
+    sem_init(&b->s1, 0, 1);
+    sem_init(&b->s2, 0, num_threads);
+    b->size = num_threads;
+    b->count = 0;
 }
 
 void barrier(barrier_t *b) {
     // barrier code goes here
+    sem_wait(&b->s1);
+    b->count++;
+    sem_post(&b->s1);
+    
+    if(&b->count != &b->size ) {
+        sem_post(&b->s2);
+        sleep(1);
+    }
+    sem_wait(&b->s2);
+    sem_post(&b->s2);
+
+    //ab hier reusable (count wird einfach wieder auf 0 gezählt)
+    sem_wait(&b->s1);
+    b->count--;
+    sem_post(&b->s1);
+
+    if(&b->count == 0){
+        sem_wait(&b->s2);
+    }
+  
 }
 
 //
